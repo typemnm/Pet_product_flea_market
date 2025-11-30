@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:padding="32dp">
@@ -22,6 +22,7 @@
 
         <!-- 아이디 -->
         <EditText
+            android:inputType="text"
             android:id="@+id/edtId"
             android:layout_width="match_parent"
             android:layout_height="48dp"
