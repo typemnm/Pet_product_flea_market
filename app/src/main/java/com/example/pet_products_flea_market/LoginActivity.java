@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         showToast("로그인 성공!");
 
-        moveToMainPage();
+        moveToProductList(id);
     }
 
     /**
@@ -119,14 +119,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * MainActivity로 이동
+     * 로그인 성공 시 회원정보(ID)를 가지고 상품 목록 화면으로 이동
      */
-    private void moveToMainPage() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    private void moveToProductList(String userId) {
+        Intent intent = new Intent(LoginActivity.this, ProductListActivity.class);
+        intent.putExtra("USER_ID", userId);   // 🔥 회원정보 전달
         startActivity(intent);
         finish();
     }
-
     /**
      * 토스트 출력
      */
