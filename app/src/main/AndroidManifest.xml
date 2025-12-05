@@ -23,7 +23,18 @@
         </activity>
         <activity android:name=".LoginActivity"
             android:exported="false"/>
-        <activity android:name=".ProductListActivity"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImageZoomActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

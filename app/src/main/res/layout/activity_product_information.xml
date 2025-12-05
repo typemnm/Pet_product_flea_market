@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="20dp">
 
+            <!-- 상품 사진 -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vpProductimg"
                 android:layout_width="match_parent"
@@ -29,6 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- 글 제목 -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
@@ -43,6 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vpProductimg" />
 
+            <!-- 가격 -->
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
@@ -55,6 +58,7 @@
                 app:layout_constraintStart_toStartOf="@+id/tvTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
+            <!-- 상품 설명 -->
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="0dp"
@@ -91,6 +95,7 @@
                     android:background="#EEEEEE"
                     android:layout_marginBottom="10dp"/>
 
+                <!-- 다른 상품 리스트 -->
                 <TextView
                     android:id="@+id/tvOtherproducts"
                     android:layout_width="wrap_content"
@@ -107,6 +112,7 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="12dp">
 
+                    <!-- 다른 상품 사진 1 -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvOtherproduct1"
                         android:layout_width="0dp"
@@ -123,6 +129,7 @@
                             tools:srcCompat="@tools:sample/backgrounds/scenic" />
                     </androidx.cardview.widget.CardView>
 
+                    <!-- 다른 상품 사진 2 -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvOtherproduct_2"
                         android:layout_width="0dp"
@@ -139,6 +146,7 @@
                             tools:srcCompat="@tools:sample/backgrounds/scenic" />
                     </androidx.cardview.widget.CardView>
 
+                    <!-- 다른 상품 사진 3 -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvOtherproduct_3"
                         android:layout_width="0dp"
@@ -155,6 +163,7 @@
                             tools:srcCompat="@tools:sample/backgrounds/scenic" />
                     </androidx.cardview.widget.CardView>
 
+                    <!-- 다른 상품 사진 4 -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvOtherproduct4"
                         android:layout_width="0dp"
@@ -177,6 +186,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <!-- 구매 버튼 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnBuy"
         android:layout_width="match_parent"
