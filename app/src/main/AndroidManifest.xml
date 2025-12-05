@@ -24,6 +24,8 @@
         <activity android:name=".LoginActivity"
             android:exported="false"/>
         <activity android:name=".ProductListActivity"/>
+        <activity android:name=".OrderActivity"/>
+        <activity android:name=".OrderResultActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout">
+
+
+    <!--상품 이미지-->
+    <ImageView
+        android:id="@+id/prod_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dummy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <!--상품 이름-->
+    <TextView
+        android:id="@+id/prod_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="dummy"
+        android:layout_below="@+id/prod_img"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        />
+
+    <!--상품 가격-->
+    <TextView
+        android:id="@+id/prod_price"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가격: 49955원"
+        android:layout_below="@+id/prod_name"
+        android:layout_alignLeft="@id/prod_img"
+        android:textSize="20dp"
+        />
+
+    <!--주소-->
+    <TextView
+        android:id="@+id/addr"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주소: "
+        android:layout_below="@id/prod_price"
+        android:layout_alignLeft="@id/prod_img"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/address"
+        android:layout_marginTop="15dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prod_price"
+        android:layout_toRightOf="@id/addr"
+        android:text=""
+        android:textSize="20dp"
+        />
+
+    <!--결제수단-->
+    <TextView
+        android:id="@+id/pay"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="결제수단: "
+        android:layout_below="@id/addr"
+        android:layout_alignRight="@id/addr"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/payment"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addr"
+        android:layout_toRightOf="@id/pay"
+        android:text="선택"
+        android:textSize="20dp"/>
+
+    <!--배송기간-->
+    <TextView
+        android:id="@+id/deliv"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="배송기간: "
+        android:layout_below="@id/pay"
+        android:layout_alignRight="@id/addr"
+        android:textSize="20dp"/>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payment"
+        android:layout_toRightOf="@id/deliv"
+        android:text="1~2일"
+        android:textSize="20dp"/>
+
+    <!--홈 버튼-->
+    <Button
+        android:id="@+id/homebtn"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="홈"
+        android:layout_below="@id/deliv"
+        android:layout_centerHorizontal="true"/>
+
+
+
+</RelativeLayout>
