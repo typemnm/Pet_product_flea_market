@@ -1,16 +1,25 @@
 package com.example.pet_products_flea_market;
 
-public class Product {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Product implements Serializable { // Serializable 구현
+    private int id;
     private String name;
     private String price;
-    private int imageResId;
+    private String description; // 설명 추가
+    private ArrayList<Integer> imageResIds;
 
-    public Product(String name, String price, int imageResId) {
+    public Product(int id, String name, String price, String description, ArrayList<Integer> imageResIds) {
+        this.id = id;
         this.name = name;
         this.price = price;
-        this.imageResId = imageResId;
+        this.description = description;
+        this.imageResIds = imageResIds;
     }
-
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -18,8 +27,11 @@ public class Product {
     public String getPrice() {
         return price;
     }
+    public String getDescription() {
+        return description;
+    }
 
-    public int getImageResId() {
-        return imageResId;
+    public ArrayList<Integer> getImageResIds() {
+        return imageResIds;
     }
 }
