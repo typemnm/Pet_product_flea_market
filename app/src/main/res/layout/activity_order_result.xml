@@ -108,6 +108,16 @@
         android:layout_below="@id/deliv"
         android:layout_centerHorizontal="true"/>
 
+    <!--결제완료 표시-->
+    <TextView
+        android:id="@+id/ordered"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="결제 완료!"
+        android:layout_below="@id/homebtn"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

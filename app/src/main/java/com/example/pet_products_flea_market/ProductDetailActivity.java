@@ -70,7 +70,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // btnBuy.setOnClickListener(v -> moveToPurchaseActivity()); 구매 기능 추가후 주석 해제
+         btnBuy.setOnClickListener(v -> moveToPurchaseActivity());
 
         // 하단 상품 클릭 (예시)
         cvOtherproduct1.setOnClickListener(v -> loadOtherProduct(101));
@@ -85,11 +85,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //private void moveToPurchaseActivity() { 구매 기능 추가후 주석 해제
-    //    Intent intent = new Intent(this, PurchaseActivity.class);
-    //    intent.putExtra(KEY_PRODUCT_DATA, currentProduct);
-    //    startActivity(intent);
-    //}
+    private void moveToPurchaseActivity() {
+        Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra(KEY_PRODUCT_DATA, currentProduct);
+        startActivity(intent);
+        finish();
+    }
 
     private void loadOtherProduct(int newId) {
         // 더미 데이터 생성 후 이동

@@ -18,6 +18,8 @@ public class OrderResultActivity extends AppCompatActivity {
     TextView txtAddress;
     TextView txtPayment;
     Button btnHome;
+    Product selectedProduct;
+    public static final String KEY_PRODUCT_DATA = "KEY_PRODUCT_DATA";
 
 
     @Override
@@ -34,14 +36,15 @@ public class OrderResultActivity extends AppCompatActivity {
         btnHome = findViewById(R.id.homebtn);
 
         //intent 가져오기
-        Bitmap bitMap = getIntent().getParcelableExtra("IMG_BIT");
-        String prodName = getIntent().getStringExtra("P_NAME");
-        String prodPrice = getIntent().getStringExtra("P_PRICE");
+        selectedProduct  = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
+        int[]  imgResource = selectedProduct.getImageResIds().stream().mapToInt(Integer::intValue).toArray();
+        String prodName = selectedProduct.getName();
+        String prodPrice = selectedProduct.getPrice();
         String userAddr = getIntent().getStringExtra("U_ADDR");
         String prodPay = getIntent().getStringExtra("P_PAY");
 
         //값 설정
-        imgProduct.setImageBitmap(bitMap);
+        imgProduct.setImageResource(imgResource[0]);
         txtName.setText(prodName);
         txtPrice.setText("가격: "+prodPrice);
         txtAddress.setText(userAddr);
@@ -49,12 +52,10 @@ public class OrderResultActivity extends AppCompatActivity {
 
         //홈 버튼 기능구현
         btnHome.setOnClickListener(v -> {
-
-            //TODO: 인텐트 사용해서 홈으로 돌아갈지 finish()로 돌아갈지 정해야됨
-            finish();
+            finish(); //연이은 finish()로 최종적으로 ProductListActivity로 이동
         });
 
-
+        //TODO: 구매완료된 상품을 마이페이지-구매이력에서 볼 수 있도록 해야됨
     }
 
 

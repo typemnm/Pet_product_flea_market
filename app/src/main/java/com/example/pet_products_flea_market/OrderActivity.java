@@ -3,6 +3,7 @@ package com.example.pet_products_flea_market;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,15 +24,21 @@ public class OrderActivity extends AppCompatActivity {
     EditText etAddress;
     Button btnPayment;
     Button btnOrder;
-
+    public static final String KEY_PRODUCT_DATA = "KEY_PRODUCT_DATA";
     String itemName;
-    Bitmap bitMap;
+    int[] imgResource;
+    Product selectedProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+
+        //ProductDetailActivity에서 인텐트 가져오기(id, 이름, 가격, 설명, 이미지src)
+        selectedProduct  = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
+
+        //xml id 바인딩
         imgProduct = findViewById(R.id.prod_img);
         txtName = findViewById(R.id.prod_name);
         txtPrice = findViewById(R.id.prod_price);
@@ -38,12 +46,14 @@ public class OrderActivity extends AppCompatActivity {
         btnPayment = findViewById(R.id.payment);
         btnOrder = findViewById(R.id.orderbtn);
 
+        //인텐트에서 값 가져와 적용
+        //ArrayList<Integer> -> int로 변환, 이미지 리소스 적용
+        imgResource = selectedProduct.getImageResIds().stream().mapToInt(Integer::intValue).toArray();
+        imgProduct.setImageResource(imgResource[0]);
+        txtName.setText(selectedProduct.getName());
+        txtPrice.setText("가격: "+selectedProduct.getPrice());
 
-        //TODO:고른 상품의 이미지(src)와 가격정보를 전의 액티비티에서 불러와서 설정하는 것 필요
 
-
-        //비트맵 형태로 인텐트에 전달
-        bitMap = BitmapFactory.decodeResource(getResources(), R.id.prod_img);
         //결제수단 선택
         btnPayment.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this,v);
@@ -59,19 +69,24 @@ public class OrderActivity extends AppCompatActivity {
                         }
                     }
             );
+            popupMenu.show();
         });
 
         //상품 주문, 주문결과 화면으로 넘어가기(OrderResultActivity)
         btnOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderActivity.this, OrderResultActivity.class);
-            intent.putExtra("IMG_BIT", bitMap);
-            intent.putExtra("P_NAME", txtName.getText().toString());
-            intent.putExtra("P_PRICE", txtPrice.getText().toString());
-            intent.putExtra("U_ADDR", etAddress.getText().toString());
-            intent.putExtra("P_PAY", itemName);
-            startActivity(intent);
-            finish();
+            //주소나 결제수단이 입력 안되었으면 Toast메세지 띄움
+            if(etAddress.getText().toString().isEmpty() || btnPayment.getText().equals("선택")){
+                Toast.makeText(this, "올바른  주소나 결제수단을 입력해주세요!", Toast.LENGTH_SHORT).show();
+            }else {
+                Intent intent = new Intent(OrderActivity.this, OrderResultActivity.class);
+                intent.putExtra(KEY_PRODUCT_DATA, selectedProduct);
+                intent.putExtra("U_ADDR", etAddress.getText().toString());
+                intent.putExtra("P_PAY", itemName);
+                startActivity(intent);
+                finish();
+            }
         });
+
 
 
 
