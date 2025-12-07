@@ -1,4 +1,4 @@
-package com.example.a1;
+package com.example.pet_products_flea_market;
 
 public class Notice {
     String notice;

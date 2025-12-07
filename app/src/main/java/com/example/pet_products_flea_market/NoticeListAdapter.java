@@ -1,4 +1,4 @@
-package com.example.a1;
+package com.example.pet_products_flea_market;
 
 import android.content.Context;
 import android.view.View;
