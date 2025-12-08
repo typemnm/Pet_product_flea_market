@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "pet_products_flea_market"
+rootProject.name = "Pet_product_flea_market"
 include(":app")
- 
