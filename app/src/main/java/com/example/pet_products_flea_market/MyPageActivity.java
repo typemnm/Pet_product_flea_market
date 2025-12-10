@@ -11,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MyPageActivity extends AppCompatActivity {
-
     private BottomNavigationView bottomNavigationView;
     private String userId;
+
+    Button btnNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,20 @@ public class MyPageActivity extends AppCompatActivity {
         initViews();
         setupListeners();
         initBottomNavigation();
+
+        btnNotice = findViewById(R.id.btnNotice);
+        btnNotice.setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, NoticeActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnFeedback = findViewById(R.id.btnFeedback);
+        btnFeedback.setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, FeedbackActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
+
     }
 
     private void initViews() {
@@ -44,9 +59,6 @@ public class MyPageActivity extends AppCompatActivity {
             intent.putExtra("USER_ID", userId); // 사용자 ID 전달
             startActivity(intent);
         });
-
-        findViewById(R.id.btnFeedback).setOnClickListener(v ->
-                Toast.makeText(this, "의견 남기기 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
 
         findViewById(R.id.tvDeleteAccount).setOnClickListener(v ->
                 Toast.makeText(this, "회원탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show());
@@ -91,5 +103,7 @@ public class MyPageActivity extends AppCompatActivity {
             }
             return false;
         });
+
     }
+
 }
