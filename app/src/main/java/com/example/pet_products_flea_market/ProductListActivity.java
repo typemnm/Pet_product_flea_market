@@ -2,10 +2,13 @@ package com.example.pet_products_flea_market;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast; // Toast 메시지 사용을 위해 추가
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView; // BottomNavigationView 임포트 추가
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +18,8 @@ public class ProductListActivity extends AppCompatActivity {
     private RecyclerView rvProductList;
     private ProductAdapter productAdapter;
     private List<Product> productDataList;
-    /**
-     * 저장해둔 상품들을 목록 형태로 보여주는 Activity
-     * RecyclerView + Adapter로 스크롤 가능 목록 구성
-     */
+    private BottomNavigationView bottomNavigationView; // 하단 네비게이션 변수 선언
+
     private String userId;
 
     @Override
@@ -26,15 +27,17 @@ public class ProductListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
 
-        initViews();
         userId = getIntent().getStringExtra("USER_ID");
 
+        initViews();
         loadSampleData();
         initRecyclerView();
+        initBottomNavigation(); // 하단 네비게이션 초기화 함수 호출
     }
 
     private void initViews() {
         rvProductList = findViewById(R.id.rvProductList);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView); // XML의 id와 연결
     }
 
     private void loadSampleData() {
@@ -58,12 +61,44 @@ public class ProductListActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        productAdapter = new ProductAdapter(productDataList, product ->{ // 클릭 리스너로 전달 -> 상세 페이지로 이동
+        productAdapter = new ProductAdapter(productDataList, product ->{
             Intent intent = new Intent(ProductListActivity.this, ProductDetailActivity.class);
             intent.putExtra(ProductDetailActivity.KEY_PRODUCT_DATA, product);
             startActivity(intent);
         });
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
         rvProductList.setAdapter(productAdapter);
+    }
+
+    // 하단 네비게이션 기능 구현
+    private void initBottomNavigation() {
+        // 현재 화면이 '홈'이므로 홈 아이템을 선택된 상태로 설정
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                // 이미 홈 화면이므로 아무 동작 안 함 (또는 최상단 스크롤 등의 기능 추가 가능)
+                return true;
+            } else if (itemId == R.id.nav_notice) {
+                // 공지사항(MainActivity)으로 이동
+                Intent intent = new Intent(ProductListActivity.this, MainActivity.class);
+                // 필요하다면 userId 정보도 같이 넘겨줄 수 있음
+                intent.putExtra("USER_ID", userId);
+                startActivity(intent);
+                return true;
+            } else if (itemId == R.id.nav_mypage) {
+                // 마이페이지로 이동 (아직 마이페이지 Activity가 없으므로 Toast 메시지 띄움)
+                Toast.makeText(ProductListActivity.this, "마이페이지 기능 준비 중입니다.", Toast.LENGTH_SHORT).show();
+
+                // 추후 마이페이지 Activity가 생성되면 아래 주석 해제하여 연결
+                // Intent intent = new Intent(ProductListActivity.this, MyPageActivity.class);
+                // intent.putExtra("USER_ID", userId);
+                // startActivity(intent);
+                return true;
+            }
+            return false;
+        });
     }
 }
