@@ -1,45 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="공지사항"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:textColor="@color/black"
-        android:id="@+id/noticeText"
-        android:textStyle="bold"/>
-    
-    <LinearLayout
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/noticeListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary_dark" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="홍길동"
-            android:layout_gravity="center"
-            android:padding="3dp"
-            android:layout_marginLeft="8dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:id="@+id/nameText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="2025-12-05"
-            android:layout_gravity="center"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:id="@+id/dateText" />
-    </LinearLayout>
-
-
-
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"/>
 </LinearLayout>
