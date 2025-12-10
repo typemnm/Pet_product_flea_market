@@ -13,5 +13,6 @@
         <activity android:name=".ImageZoomActivity" android:exported="false"/>
         <activity android:name=".OrderActivity" android:exported="false"/>
         <activity android:name=".OrderResultActivity" android:exported="false"/>
+        <activity android:name=".MyPageActivity" android:exported="false"/>
     </application>
 </manifest>

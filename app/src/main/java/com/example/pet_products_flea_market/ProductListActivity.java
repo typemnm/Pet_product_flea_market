@@ -89,13 +89,9 @@ public class ProductListActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_mypage) {
-                // 마이페이지로 이동 (아직 마이페이지 Activity가 없으므로 Toast 메시지 띄움)
-                Toast.makeText(ProductListActivity.this, "마이페이지 기능 준비 중입니다.", Toast.LENGTH_SHORT).show();
-
-                // 추후 마이페이지 Activity가 생성되면 아래 주석 해제하여 연결
-                // Intent intent = new Intent(ProductListActivity.this, MyPageActivity.class);
-                // intent.putExtra("USER_ID", userId);
-                // startActivity(intent);
+                Intent intent = new Intent(ProductListActivity.this, MyPageActivity.class);
+                intent.putExtra("USER_ID", userId);
+                startActivity(intent);
                 return true;
             }
             return false;
