@@ -56,8 +56,9 @@ public class NoticeActivity extends AppCompatActivity {
                                     String content = obj.getString("noticeContent");
                                     String name = obj.getString("noticeName");
                                     String date = obj.getString("noticeDate");
+                                    String contentContent = obj.getString("noticeContentContent");
                                     //객체 타입 유동적
-                                    Notice notice = new Notice(content, name, date);
+                                    Notice notice = new Notice(content, name, date, contentContent);
                                     noticeList.add(notice);
                                 }
 

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:paddingTop="7dp">
 
         <TextView
             android:id="@+id/nameText"
@@ -34,6 +34,14 @@
             android:layout_height="wrap_content"
             android:text="날짜"
             android:textColor="@color/black" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/contentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:text="공지사항 내용" />
 
 </LinearLayout>

@@ -4,11 +4,13 @@ public class Notice {
     String notice;
     String name;
     String date;
+    String content;
 
-    public Notice(String notice, String name, String date) {
+    public Notice(String notice, String name, String date, String content) {
         this.notice = notice;
         this.name = name;
         this.date = date;
+        this.content = content;
     }
 
     public String getNotice() {
@@ -24,5 +26,12 @@ public class Notice {
     public String getDate() {
         return date;
     }
+
+
+
+    public String getContent() {
+        return content;
+    }
+
 
 }

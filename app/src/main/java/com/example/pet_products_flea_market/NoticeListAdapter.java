@@ -1,6 +1,7 @@
 package com.example.pet_products_flea_market;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,12 +39,17 @@ public class NoticeListAdapter extends BaseAdapter {
         TextView noticeText = (TextView) v.findViewById(R.id.noticeText);
         TextView nameText = (TextView) v.findViewById(R.id.nameText);
         TextView dateText = (TextView) v.findViewById(R.id.dateText);
+        TextView contentText = (TextView) v.findViewById(R.id.contentText);
+
+        Notice item = noticeList.get(i);
 
         noticeText.setText(noticeList.get(i).getNotice());
         nameText.setText(noticeList.get(i).getName());
         dateText.setText(noticeList.get(i).getDate());
+        contentText.setText(noticeList.get(i).getContent());
 
-        v.setTag(noticeList.get(i).getNotice());
+
+
         return v;
     }
 }
