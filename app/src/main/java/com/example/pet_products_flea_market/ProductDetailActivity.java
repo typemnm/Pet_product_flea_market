@@ -2,6 +2,7 @@ package com.example.pet_products_flea_market;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -32,6 +34,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         initViews();
         setupViewPager();
         setupListeners();
+
+        loadOtherProduct();
     }
 
     private void initData() {
@@ -73,10 +77,10 @@ public class ProductDetailActivity extends AppCompatActivity {
          btnBuy.setOnClickListener(v -> moveToPurchaseActivity());
 
         // 하단 상품 클릭 (예시)
-        cvOtherproduct1.setOnClickListener(v -> loadOtherProduct(101));
-        cvOtherproduct2.setOnClickListener(v -> loadOtherProduct(102));
-        cvOtherproduct3.setOnClickListener(v -> loadOtherProduct(103));
-        cvOtherproduct4.setOnClickListener(v -> loadOtherProduct(104));
+        cvOtherproduct1.setOnClickListener(v -> loadOtherProduct());
+        cvOtherproduct2.setOnClickListener(v -> loadOtherProduct());
+        cvOtherproduct3.setOnClickListener(v -> loadOtherProduct());
+        cvOtherproduct4.setOnClickListener(v -> loadOtherProduct());
     }
 
     private void moveToImageZoomActivity(int imageResId) {
@@ -92,17 +96,48 @@ public class ProductDetailActivity extends AppCompatActivity {
         finish();
     }
 
-    private void loadOtherProduct(int newId) {
-        // 더미 데이터 생성 후 이동
-        ArrayList<Integer> dummyImages = new ArrayList<>();
-        dummyImages.add(R.drawable.ic_doglogo); // 임시 이미지
+    private void loadOtherProduct() {
+        // 전체 리스트를 가져옴
+        List<Product> allProducts = ProductListActivity.getSampleData();
+        List<Product> otherProducts = new ArrayList<>();
 
-        Product nextProduct = new Product(
-                newId, "다른 상품 " + newId, "50,000원", "다른 상품 상세 설명입니다.", dummyImages
-        );
+        // 현재 상품을 제외한 상품만 골라내기
+        for (Product p : allProducts) {
+            if (p.getId() != currentProduct.getId()) {
+                otherProducts.add(p);
+            }
+        }
 
-        Intent intent = new Intent(this, ProductDetailActivity.class);
-        intent.putExtra(KEY_PRODUCT_DATA, nextProduct);
-        startActivity(intent);
+        // CardView에 데이터 연결
+        CardView[] cardViews = {cvOtherproduct1, cvOtherproduct2, cvOtherproduct3, cvOtherproduct4};
+
+        for (int i = 0; i < cardViews.length; i++) {
+            if (i < otherProducts.size()) {
+                Product otherItem = otherProducts.get(i);
+
+                // CardView 보이게 설정
+                cardViews[i].setVisibility(android.view.View.VISIBLE);
+
+                // 이미지 설정
+                if (cardViews[i].getChildCount() > 0 && cardViews[i].getChildAt(0) instanceof ImageView) {
+                    ImageView imgView = (ImageView) cardViews[i].getChildAt(0);
+                    if (otherItem.getImageResIds() != null && !otherItem.getImageResIds().isEmpty()) {
+                        imgView.setImageResource(otherItem.getImageResIds().get(0));
+                    }
+                }
+
+                // 클릭 리스너 연결
+                cardViews[i].setOnClickListener(v -> {
+                    Intent intent = new Intent(ProductDetailActivity.this, ProductDetailActivity.class);
+                    intent.putExtra(KEY_PRODUCT_DATA, otherItem);
+                    startActivity(intent);
+                    finish(); // 현재 상세 페이지 종료 후 이동
+                });
+
+            } else {
+                // 데이터가 모자르면 빈 카드뷰 숨기기
+                cardViews[i].setVisibility(android.view.View.INVISIBLE);
+            }
+        }
     }
 }

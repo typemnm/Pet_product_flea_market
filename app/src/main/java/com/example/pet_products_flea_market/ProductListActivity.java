@@ -30,7 +30,7 @@ public class ProductListActivity extends AppCompatActivity {
         userId = getIntent().getStringExtra("USER_ID");
 
         initViews();
-        loadSampleData();
+        productDataList = getSampleData();
         initRecyclerView();
         initBottomNavigation(); // 하단 네비게이션 초기화 함수 호출
     }
@@ -40,24 +40,26 @@ public class ProductListActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView); // XML의 id와 연결
     }
 
-    private void loadSampleData() {
-        productDataList = new ArrayList<>();
+    public static ArrayList<Product> getSampleData() {
+        ArrayList<Product> list = new ArrayList<>(); // productDataList 대신 로컬 변수 사용 후 값 지정
 
         ArrayList<Integer> catTowerImages = new ArrayList<>();
         catTowerImages.add(R.drawable.cat_tower);
-        productDataList.add(new Product(1,"캣타워", "30,000원","사용감 없고 흠집 살짝 있어요.\n직거래 희망합니다.", catTowerImages));
+        list.add(new Product(1,"캣타워", "30,000원","사용감 없고 흠집 살짝 있어요.\n직거래 희망합니다.", catTowerImages));
 
         ArrayList<Integer> catFoodImages = new ArrayList<>();
         catFoodImages.add(R.drawable.cat_food);
-        productDataList.add(new Product(2,"고양이 사료", "10,000원","우리 냥이가 안 먹어서 팔아요. 미개봉입니다.", catFoodImages));
+        list.add(new Product(2,"고양이 사료", "10,000원","우리 냥이가 안 먹어서 팔아요. 미개봉입니다.", catFoodImages));
 
         ArrayList<Integer> hamHouseImages = new ArrayList<>();
         hamHouseImages.add(R.drawable.hamster_house);
-        productDataList.add(new Product(3,"햄스터 케이지", "20,000원","햄스터가 집에 안들어가요ㅠㅠ", hamHouseImages));
+        list.add(new Product(3,"햄스터 케이지", "20,000원","햄스터가 집에 안들어가요ㅠㅠ", hamHouseImages));
 
         ArrayList<Integer> woodChipsImages = new ArrayList<>();
         woodChipsImages.add(R.drawable.wood_chips);
-        productDataList.add(new Product(4,"톱밥", "2,000원","우리 아이 영양 톱밥입니당", woodChipsImages));
+        list.add(new Product(4,"톱밥", "2,000원","우리 아이 영양 톱밥입니당", woodChipsImages));
+
+        return list; // 리스트 반환
     }
 
     private void initRecyclerView() {

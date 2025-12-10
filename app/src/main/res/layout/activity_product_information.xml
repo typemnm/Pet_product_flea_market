@@ -193,7 +193,7 @@
         android:layout_height="56dp"
         android:layout_margin="16dp"
         android:background="@drawable/bg_button_rounded"
-        android:backgroundTint="#8D5A3D"
+        android:backgroundTint="#7A461E"
         android:text="구매하기"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
