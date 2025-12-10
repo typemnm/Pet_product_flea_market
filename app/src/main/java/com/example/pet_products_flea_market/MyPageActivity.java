@@ -39,8 +39,11 @@ public class MyPageActivity extends AppCompatActivity {
         findViewById(R.id.btnPurchaseHistory).setOnClickListener(v ->
                 Toast.makeText(this, "구매 내역 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
 
-        findViewById(R.id.btnProfile).setOnClickListener(v ->
-                Toast.makeText(this, "프로필 수정 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.btnProfile).setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, ProfileActivity.class);
+            intent.putExtra("USER_ID", userId); // 사용자 ID 전달
+            startActivity(intent);
+        });
 
         findViewById(R.id.btnFeedback).setOnClickListener(v ->
                 Toast.makeText(this, "의견 남기기 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
