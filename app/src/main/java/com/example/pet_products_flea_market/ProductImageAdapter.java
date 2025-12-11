@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<String> imageList; // Integer -> String 변경
+    private ArrayList<String> imageList;
     private OnImageClickListener listener;
 
     public interface OnImageClickListener {

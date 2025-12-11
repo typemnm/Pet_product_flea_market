@@ -86,6 +86,5 @@ public class OrderActivity extends AppCompatActivity {
                 finish();
             }
         });
-// ... 기존 코드 ...
     }
 }

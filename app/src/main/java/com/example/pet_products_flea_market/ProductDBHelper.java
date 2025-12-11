@@ -21,8 +21,6 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SELLER_ID = "seller_id";
     public static final String COLUMN_BUYER_ID = "buyer_id";
     public static final String COLUMN_IS_SOLD = "is_sold";
-
-    // [추가] 새 컬럼 정의
     public static final String COLUMN_TRADING_ADDRESS = "trading_address";
     public static final String COLUMN_PAYMENT_METHOD = "payment_method";
 
@@ -52,7 +50,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // 상품 등록 (기존과 동일하지만, 새 컬럼은 null로 들어감)
+    // 상품 등록
     public long insertProduct(String name, String price, String description, ArrayList<String> imageUris, String sellerId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

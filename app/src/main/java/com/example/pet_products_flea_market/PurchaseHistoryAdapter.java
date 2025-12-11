@@ -28,7 +28,6 @@ public class PurchaseHistoryAdapter extends RecyclerView.Adapter<PurchaseHistory
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // 새로 만든 item_purchase_history.xml 사용
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_purchase_history, parent, false);
         return new ViewHolder(view);
