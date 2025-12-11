@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * Feedback 리스트 데이터를 ListView의 각 줄(item) 화면으로 변환하는 어댑터
+ */
 public class FeedbackListAdapter extends BaseAdapter {
 
     private Context context;
@@ -18,21 +21,25 @@ public class FeedbackListAdapter extends BaseAdapter {
         this.feedbackList = feedbackList;
     }
 
+    // 리스트 총 개수 반환 (ListView의 줄 수)
     @Override
     public int getCount() {
         return feedbackList.size();
     }
 
+    // 특정 위치(i)의 데이터 객체 반환
     @Override
     public Object getItem(int i) {
         return feedbackList.get(i);
     }
 
+    // 아이템 고유 ID 반환
     @Override
     public long getItemId(int i) {
         return i;
     }
 
+    // 리스트의 한 줄을 어떻게 표시할지 정의
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         View v = View.inflate(context, R.layout.item_feedback, null);
@@ -44,10 +51,10 @@ public class FeedbackListAdapter extends BaseAdapter {
 
         Feedback item = feedbackList.get(i);
 
-        noText.setText(String.valueOf(item.getNo()));      // No.
-        nameText.setText(item.getName());                  // 작성자
-        dateText.setText(item.getDate());                  // 날짜
-        contentText.setText(item.getContent());            // 내용
+        noText.setText(String.valueOf(item.getNo()));
+        nameText.setText(item.getName());
+        dateText.setText(item.getDate());
+        contentText.setText(item.getContent());
 
         return v;
     }

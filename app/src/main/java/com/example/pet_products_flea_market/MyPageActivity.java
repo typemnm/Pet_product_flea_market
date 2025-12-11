@@ -10,6 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * 마이페이지
+ * 구매내역, 프로필, 공지사항, 의견남기기, 의견 모아보기 기능 화면으로 이동
+ * USER_ID를 받아 다른 Activity로 전달하는 허브 역할 (사용자 정보 관리)
+ */
+
 public class MyPageActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private String userId;
@@ -26,12 +32,14 @@ public class MyPageActivity extends AppCompatActivity {
         setupListeners();
         initBottomNavigation();
 
+        // 공지 사항 이동 버튼
         Button btnNotice = findViewById(R.id.btnNotice);
         btnNotice.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, NoticeActivity.class);
             startActivity(intent);
         });
 
+        // 의견 남기기 이동 버튼 (USER_ID 전달)
         Button btnFeedback = findViewById(R.id.btnFeedback);
         btnFeedback.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, FeedbackActivity.class);
@@ -39,6 +47,7 @@ public class MyPageActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // 의견 모아 보기 이동 버튼
         Button btnReadFeedback = findViewById(R.id.btnReadFeedback);
         btnReadFeedback.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, FeedbackListActivity.class);
@@ -52,8 +61,6 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        // 기능이 구현되지 않은 버튼들은 Toast 메시지로 대체
-
         findViewById(R.id.btnPurchaseHistory).setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, PurchaseListActivity.class);
             startActivity(intent);

@@ -17,11 +17,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 의견 모아 보기
+ * 서버 DB 에 저장된 사용자 의견 목록을 가져와 ListView에 표시
+ */
+
 public class FeedbackListActivity extends AppCompatActivity {
 
     private ListView feedbackListView;
     private FeedbackListAdapter adapter;
-    private List<Feedback> feedbackList;   // ★ Notice → Feedback 객체 리스트로 변경
+    private List<Feedback> feedbackList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class FeedbackListActivity extends AppCompatActivity {
         feedbackList = new ArrayList<>();
 
         // 어댑터 연결
+        // feedbackList의 데이터를 ListView에 넣음.
         adapter = new FeedbackListAdapter(FeedbackListActivity.this, feedbackList);
         feedbackListView.setAdapter(adapter);
 
@@ -43,8 +49,12 @@ public class FeedbackListActivity extends AppCompatActivity {
     }
 
     private void loadFeedbackData() {
-        String url = "http://10.0.2.2/android/FeedbackList.php";  // ★ NOTICE → FEEDBACK URL 변경
-
+        String url = "http://10.0.2.2/android/FeedbackList.php";
+        /*
+         * 정보 불러 오기
+         * JsonObject 요청 (GET 방식)
+         * 서버에서 데이터를 가져올때는 GET 방식이 정석
+         */
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -52,7 +62,7 @@ public class FeedbackListActivity extends AppCompatActivity {
                 response -> {
                     try {
                         org.json.JSONArray jsonArray = response.getJSONArray("response");
-
+                        // 배열 안의 각각의 의견 내용을 Feedback 객체로 변환
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
 
@@ -63,9 +73,10 @@ public class FeedbackListActivity extends AppCompatActivity {
                             String regDate = obj.getString("reg_date");
 
                             Feedback feedback = new Feedback(id, userId, rating, content, regDate);
+                            // 리스트에 추가
                             feedbackList.add(feedback);
                         }
-
+                        // 데이터가 바뀌었음을 알려 화면 갱신
                         adapter.notifyDataSetChanged();
 
                     } catch (Exception e) {
@@ -74,7 +85,7 @@ public class FeedbackListActivity extends AppCompatActivity {
                 },
                 error -> Log.e("SERVER", "서버 오류: " + error.toString())
         );
-
+        //실행
         RequestQueue queue = Volley.newRequestQueue(FeedbackListActivity.this);
         queue.add(request);
     }

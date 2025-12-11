@@ -1,5 +1,11 @@
 package com.example.pet_products_flea_market;
 
+/**
+ * 구매 내역
+ * - 상품명, 가격, 배송지 주소, 결제 방식 정보를 담고 있음
+ * - PurchaseListAdapter에서 ListView에 표시하기 위해 사용되는 객체
+ */
+
 public class Purchase {
     private String name;
     private String price;

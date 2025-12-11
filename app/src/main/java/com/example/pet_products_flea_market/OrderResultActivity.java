@@ -67,7 +67,6 @@ public class OrderResultActivity extends AppCompatActivity {
 
         // 개수 업데이트
         editor.putInt("COUNT", newIndex);
-
         editor.apply();
 
         //홈 버튼 기능구현
