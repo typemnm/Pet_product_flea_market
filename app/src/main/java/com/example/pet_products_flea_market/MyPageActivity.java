@@ -53,11 +53,11 @@ public class MyPageActivity extends AppCompatActivity {
 
     private void setupListeners() {
         // 기능이 구현되지 않은 버튼들은 Toast 메시지로 대체
-        findViewById(R.id.btnSalesHistory).setOnClickListener(v ->
-                Toast.makeText(this, "판매 내역 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
 
-        findViewById(R.id.btnPurchaseHistory).setOnClickListener(v ->
-                Toast.makeText(this, "구매 내역 기능 준비 중입니다.", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.btnPurchaseHistory).setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, PurchaseListActivity.class);
+            startActivity(intent);
+        });
 
         findViewById(R.id.btnProfile).setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, ProfileActivity.class);
@@ -70,7 +70,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         // 공지사항 버튼 -> MainActivity (기존 공지사항 화면) 이동
         findViewById(R.id.btnNotice).setOnClickListener(v -> {
-            Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
+            Intent intent = new Intent(MyPageActivity.this, NoticeActivity.class);
             startActivity(intent);
         });
 
