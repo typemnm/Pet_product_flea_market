@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품 등록"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:text="사진\n추가"
+                android:textSize="12sp"
+                android:background="@drawable/bg_button_rounded_gray"
+                android:backgroundTint="#7A461E"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="10dp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:id="@+id/imgPreview1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_gray_border"
+                    android:visibility="gone"/>
+                <ImageButton
+                    android:id="@+id/btnDelete1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/bg_circle_gray"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:contentDescription="삭제"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:id="@+id/imgPreview2"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_gray_border"
+                    android:visibility="gone"/>
+                <ImageButton
+                    android:id="@+id/btnDelete2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/bg_circle_gray"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:contentDescription="삭제"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgPreview3"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_gray_border"
+                    android:visibility="gone"/>
+                <ImageButton
+                    android:id="@+id/btnDelete3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/bg_circle_gray"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    android:contentDescription="삭제"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="가격 (예: 10,000원)"
+            android:inputType="text"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etProductDescription"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="상품 설명을 입력하세요"
+            android:gravity="top|start"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="등록하기"
+            android:background="@drawable/bg_button_rounded"
+            android:backgroundTint="#7A461E"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

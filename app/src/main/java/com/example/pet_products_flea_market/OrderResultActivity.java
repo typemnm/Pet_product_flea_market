@@ -1,7 +1,7 @@
 package com.example.pet_products_flea_market;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri; // Uri 임포트 추가
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList; // ArrayList 임포트 추가
 
 public class OrderResultActivity extends AppCompatActivity {
 
@@ -37,14 +39,30 @@ public class OrderResultActivity extends AppCompatActivity {
 
         //intent 가져오기
         selectedProduct  = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
-        int[]  imgResource = selectedProduct.getImageResIds().stream().mapToInt(Integer::intValue).toArray();
+
+        String firstImageUri = null;
+        ArrayList<String> imageUris = selectedProduct.getImageUris();
+        if (imageUris != null && !imageUris.isEmpty()) {
+            firstImageUri = imageUris.get(0);
+        }
+
         String prodName = selectedProduct.getName();
         String prodPrice = selectedProduct.getPrice();
         String userAddr = getIntent().getStringExtra("U_ADDR");
         String prodPay = getIntent().getStringExtra("P_PAY");
 
         //값 설정
-        imgProduct.setImageResource(imgResource[0]);
+        if (firstImageUri != null) {
+            try {
+                imgProduct.setImageURI(Uri.parse(firstImageUri));
+            } catch (Exception e) {
+                e.printStackTrace();
+                imgProduct.setImageResource(R.drawable.ic_launcher_background); // 에러 시 기본 이미지
+            }
+        } else {
+            imgProduct.setImageResource(R.drawable.ic_launcher_background); // 이미지가 없을 경우
+        }
+
         txtName.setText(prodName);
         txtPrice.setText("가격: "+prodPrice);
         txtAddress.setText(userAddr);
@@ -57,7 +75,4 @@ public class OrderResultActivity extends AppCompatActivity {
 
         //TODO: 구매완료된 상품을 마이페이지-구매이력에서 볼 수 있도록 해야됨
     }
-
-
-
 }

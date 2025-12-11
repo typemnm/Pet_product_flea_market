@@ -1,5 +1,6 @@
 package com.example.pet_products_flea_market;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 상품 목록을 RecyclerView에 표시하는 Adapter
- */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     private List<Product> productList;
-    private OnProductClickListener listener;
+    private OnItemClickListener listener;
 
-    public interface OnProductClickListener { // 상품 클릭 인터페이스
-        void onProductClick(Product product);
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
     }
 
-    public ProductAdapter(List<Product> productList, OnProductClickListener listener) {
-
+    public ProductAdapter(List<Product> productList, OnItemClickListener listener) {
         this.productList = productList;
         this.listener = listener;
     }
@@ -39,22 +37,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product item = productList.get(position);
-
-        // 첫 번째 이미지를 대표 이미지로 설정
-        if (item.getImageResIds() != null && !item.getImageResIds().isEmpty()) {
-            holder.imgProduct.setImageResource(item.getImageResIds().get(0));
-        }
-
-        holder.txtName.setText(item.getName()); // getName -> getTitle
-        holder.txtPrice.setText(item.getPrice());
-
-        // 아이템 클릭 시 상세 페이지로 이동
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onProductClick(item);
-            }
-        });
+        Product product = productList.get(position);
+        holder.bind(product, listener);
     }
 
     @Override
@@ -63,18 +47,48 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView imgProduct;
         TextView txtName;
         TextView txtPrice;
 
-        ViewHolder(@NonNull View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-
             imgProduct = itemView.findViewById(R.id.imgProduct);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
         }
+
+        void bind(final Product product, final OnItemClickListener listener) {
+            txtName.setText(product.getName());
+            txtPrice.setText(product.getPrice());
+
+            ArrayList<String> imageUris = product.getImageUris();
+            if (imageUris != null && !imageUris.isEmpty()) {
+                // 첫 번째 이미지를 대표 이미지로 설정
+                String uriString = imageUris.get(0);
+                try {
+                    // 리소스 경로인지 확인 (샘플 데이터용)
+                    if (uriString.startsWith("android.resource")) {
+                        // 패키지명과 리소스 타입, 이름을 분리하여 ID 추출
+                        String[] parts = uriString.split("/");
+                        String resourceName = parts[parts.length - 1];
+                        int resId = itemView.getContext().getResources().getIdentifier(resourceName, "drawable", itemView.getContext().getPackageName());
+                        imgProduct.setImageResource(resId);
+                    } else {
+                        // 갤러리 이미지 URI인 경우
+                        imgProduct.setImageURI(Uri.parse(uriString));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // 로드 실패 시 기본 이미지 설정 등 처리 필요
+                    imgProduct.setImageResource(R.drawable.ic_launcher_background); // 임시 기본 이미지
+                }
+            } else {
+                imgProduct.setImageResource(R.drawable.ic_launcher_background); // 이미지가 없을 경우 기본 이미지
+            }
+
+            itemView.setOnClickListener(v -> listener.onItemClick(product));
+        }
     }
 }
-
