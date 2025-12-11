@@ -10,12 +10,15 @@ public class Product implements Serializable {
     private String description;
     private ArrayList<String> imageUris;
 
-    // 추가된 필드
-    private String sellerId; // 판매자 ID
-    private String buyerId;  // 구매자 ID
-    private boolean isSold;  // 판매 완료 여부
+    private String sellerId;
+    private String buyerId;
+    private boolean isSold;
+    private String tradingAddress;
+    private String paymentMethod;
 
-    public Product(int id, String name, String price, String description, ArrayList<String> imageUris, String sellerId, String buyerId, boolean isSold) {
+    public Product(int id, String name, String price, String description, ArrayList<String> imageUris,
+                   String sellerId, String buyerId, boolean isSold,
+                   String tradingAddress, String paymentMethod) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -24,6 +27,8 @@ public class Product implements Serializable {
         this.sellerId = sellerId;
         this.buyerId = buyerId;
         this.isSold = isSold;
+        this.tradingAddress = tradingAddress;
+        this.paymentMethod = paymentMethod;
     }
 
     // Getters
@@ -36,4 +41,8 @@ public class Product implements Serializable {
     public String getSellerId() { return sellerId; }
     public String getBuyerId() { return buyerId; }
     public boolean isSold() { return isSold; }
+
+    // [추가] Getters
+    public String getTradingAddress() { return tradingAddress; }
+    public String getPaymentMethod() { return paymentMethod; }
 }

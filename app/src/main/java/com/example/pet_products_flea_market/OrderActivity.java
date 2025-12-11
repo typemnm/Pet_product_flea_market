@@ -67,21 +67,25 @@ public class OrderActivity extends AppCompatActivity {
             });
             popupMenu.show();
         });
-
         btnOrder.setOnClickListener(v -> {
             if(etAddress.getText().toString().isEmpty() || btnPayment.getText().equals("선택")){
                 Toast.makeText(this, "올바른 주소나 결제수단을 입력해주세요!", Toast.LENGTH_SHORT).show();
             } else {
-                // DB 업데이트: 판매 완료 처리 및 구매자 등록
-                dbHelper.updateProductSold(selectedProduct.getId(), userId);
+                String address = etAddress.getText().toString();
+
+                dbHelper.updateProductSold(selectedProduct.getId(), userId, address, itemName);
 
                 Intent intent = new Intent(OrderActivity.this, OrderResultActivity.class);
                 intent.putExtra(KEY_PRODUCT_DATA, selectedProduct);
-                intent.putExtra("U_ADDR", etAddress.getText().toString());
+                intent.putExtra("U_ADDR", address);
                 intent.putExtra("P_PAY", itemName);
+                intent.putExtra("USER_ID", userId);
+                intent.putExtra("FROM_PURCHASE", true);
+
                 startActivity(intent);
                 finish();
             }
         });
+// ... 기존 코드 ...
     }
 }

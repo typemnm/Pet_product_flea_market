@@ -119,7 +119,7 @@
             android:id="@+id/etProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="가격 (예: 10,000원)"
+            android:hint="가격"
             android:inputType="text"
             android:background="@drawable/rounded_input"
             android:padding="12dp"

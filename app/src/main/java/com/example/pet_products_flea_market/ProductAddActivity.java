@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,8 @@ public class ProductAddActivity extends AppCompatActivity {
     private List<ImageButton> deleteButtons = new ArrayList<>();
     private ActivityResultLauncher<Intent> galleryLauncher;
     private String userId;
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###");
+    private String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,36 @@ public class ProductAddActivity extends AppCompatActivity {
         btnDelete1.setOnClickListener(v -> removeImage(0));
         btnDelete2.setOnClickListener(v -> removeImage(1));
         btnDelete3.setOnClickListener(v -> removeImage(2));
+
+        etProductPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(result)) {
+                    String cleanString = s.toString().replaceAll("[^\\d]", ""); // 숫자만 남김
+
+                    if (!cleanString.isEmpty()) {
+                        try {
+                            long parsed = Long.parseLong(cleanString);
+                            String formatted = decimalFormat.format(parsed);
+                            result = formatted + "원";
+                            etProductPrice.setText(result);
+                            etProductPrice.setSelection(result.length() - 1);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        result = "";
+                        etProductPrice.setText("");
+                    }
+                }
+            }
+        });
     }
 
     private void removeImage(int index) {

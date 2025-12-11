@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ProductDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Product.db";
-    private static final int DATABASE_VERSION = 3; // 스키마 변경으로 버전 증가
+    private static final int DATABASE_VERSION = 4;
 
     public static final String TABLE_PRODUCTS = "products";
     public static final String COLUMN_ID = "id";
@@ -18,11 +18,13 @@ public class ProductDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_IMAGE_URIS = "image_uris";
-
-    // 추가된 컬럼
     public static final String COLUMN_SELLER_ID = "seller_id";
     public static final String COLUMN_BUYER_ID = "buyer_id";
-    public static final String COLUMN_IS_SOLD = "is_sold"; // 0: 판매중, 1: 판매완료
+    public static final String COLUMN_IS_SOLD = "is_sold";
+
+    // [추가] 새 컬럼 정의
+    public static final String COLUMN_TRADING_ADDRESS = "trading_address";
+    public static final String COLUMN_PAYMENT_METHOD = "payment_method";
 
     public ProductDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +40,9 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 COLUMN_IMAGE_URIS + " TEXT, " +
                 COLUMN_SELLER_ID + " TEXT, " +
                 COLUMN_BUYER_ID + " TEXT, " +
-                COLUMN_IS_SOLD + " INTEGER DEFAULT 0)";
+                COLUMN_IS_SOLD + " INTEGER DEFAULT 0, " +
+                COLUMN_TRADING_ADDRESS + " TEXT, " +
+                COLUMN_PAYMENT_METHOD + " TEXT)";
         db.execSQL(createTable);
     }
 
@@ -48,7 +52,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // 상품 등록
+    // 상품 등록 (기존과 동일하지만, 새 컬럼은 null로 들어감)
     public long insertProduct(String name, String price, String description, ArrayList<String> imageUris, String sellerId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -56,7 +60,7 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PRICE, price);
         values.put(COLUMN_DESCRIPTION, description);
         values.put(COLUMN_SELLER_ID, sellerId);
-        values.put(COLUMN_IS_SOLD, 0); // 기본값: 판매중
+        values.put(COLUMN_IS_SOLD, 0);
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < imageUris.size(); i++) {
@@ -68,17 +72,25 @@ public class ProductDBHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_PRODUCTS, null, values);
     }
 
-    // 구매 처리 (상태 업데이트)
-    public void updateProductSold(int productId, String buyerId) {
+    // 구매 처리
+    public void updateProductSold(int productId, String buyerId, String address, String paymentMethod) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_IS_SOLD, 1); // 판매 완료
-        values.put(COLUMN_BUYER_ID, buyerId); // 구매자 기록
+        values.put(COLUMN_IS_SOLD, 1);
+        values.put(COLUMN_BUYER_ID, buyerId);
+        values.put(COLUMN_TRADING_ADDRESS, address);
+        values.put(COLUMN_PAYMENT_METHOD, paymentMethod);
 
         db.update(TABLE_PRODUCTS, values, COLUMN_ID + " = ?", new String[]{String.valueOf(productId)});
     }
 
-    // 공통 조회 로직
+    // 상품 삭제
+    public void deleteProduct(int productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PRODUCTS, COLUMN_ID + " = ?", new String[]{String.valueOf(productId)});
+    }
+
+    // 조회 로직
     public ArrayList<Product> loadProducts(String selection, String[] selectionArgs) {
         ArrayList<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -94,6 +106,13 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                 String sellerId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SELLER_ID));
                 String buyerId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_BUYER_ID));
                 boolean isSold = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_SOLD)) == 1;
+                String address = "";
+                String payment = "";
+                int addrIdx = cursor.getColumnIndex(COLUMN_TRADING_ADDRESS);
+                int payIdx = cursor.getColumnIndex(COLUMN_PAYMENT_METHOD);
+
+                if (addrIdx != -1) address = cursor.getString(addrIdx);
+                if (payIdx != -1) payment = cursor.getString(payIdx);
 
                 ArrayList<String> imageUris = new ArrayList<>();
                 if (imagesStr != null && !imagesStr.isEmpty()) {
@@ -102,26 +121,21 @@ public class ProductDBHelper extends SQLiteOpenHelper {
                         if(!s.trim().isEmpty()) imageUris.add(s.trim());
                     }
                 }
-
-                // 에러가 났던 부분: 생성자 호출 시 isSold(boolean)를 전달합니다.
-                productList.add(new Product(id, name, price, description, imageUris, sellerId, buyerId, isSold));
+                productList.add(new Product(id, name, price, description, imageUris, sellerId, buyerId, isSold, address, payment));
             } while (cursor.moveToNext());
         }
         cursor.close();
         return productList;
     }
 
-    // 전체 상품 목록
     public ArrayList<Product> loadAvailableProducts() {
         return loadProducts(COLUMN_IS_SOLD + " = 0", null);
     }
 
-    // 판매 내역 (내가 등록한 것만)
     public ArrayList<Product> loadUserSales(String userId) {
         return loadProducts(COLUMN_SELLER_ID + " = ?", new String[]{userId});
     }
 
-    // 구매 내역
     public ArrayList<Product> loadUserPurchases(String userId) {
         return loadProducts(COLUMN_BUYER_ID + " = ?", new String[]{userId});
     }
