@@ -14,7 +14,6 @@ public class MyPageActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private String userId;
 
-    Button btnNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class MyPageActivity extends AppCompatActivity {
         setupListeners();
         initBottomNavigation();
 
-        btnNotice = findViewById(R.id.btnNotice);
+        Button btnNotice = findViewById(R.id.btnNotice);
         btnNotice.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, NoticeActivity.class);
             startActivity(intent);
@@ -37,6 +36,12 @@ public class MyPageActivity extends AppCompatActivity {
         btnFeedback.setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, FeedbackActivity.class);
             intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
+
+        Button btnReadFeedback = findViewById(R.id.btnReadFeedback);
+        btnReadFeedback.setOnClickListener(v -> {
+            Intent intent = new Intent(MyPageActivity.this, FeedbackListActivity.class);
             startActivity(intent);
         });
 
