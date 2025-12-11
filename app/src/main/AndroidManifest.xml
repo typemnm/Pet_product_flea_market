@@ -19,5 +19,6 @@
         <activity android:name=".MyPageActivity" android:exported="false"/>
         <activity android:name=".ProfileActivity" android:exported="false"/>
         <activity android:name=".ProductAddActivity" android:label="상품 등록" />
+        <activity android:name=".SalesHistoryActivity" android:label="판매 내역" />
     </application>
 </manifest>

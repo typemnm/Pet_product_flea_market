@@ -1,7 +1,7 @@
 package com.example.pet_products_flea_market;
 
 import android.content.Intent;
-import android.net.Uri; // Uri 임포트 추가
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -10,10 +10,8 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList; // ArrayList 임포트 추가
+import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
 
@@ -25,18 +23,19 @@ public class OrderActivity extends AppCompatActivity {
     Button btnOrder;
     public static final String KEY_PRODUCT_DATA = "KEY_PRODUCT_DATA";
     String itemName;
-    // int[] imgResource; // 기존 int 배열은 더 이상 사용하지 않으므로 주석 처리하거나 제거
     Product selectedProduct;
+    String userId;
+    ProductDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        //ProductDetailActivity에서 인텐트 가져오기(id, 이름, 가격, 설명, 이미지src)
-        selectedProduct  = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
+        dbHelper = new ProductDBHelper(this);
+        selectedProduct = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
+        userId = getIntent().getStringExtra("USER_ID");
 
-        //xml id 바인딩
         imgProduct = findViewById(R.id.prod_img);
         txtName = findViewById(R.id.prod_name);
         txtPrice = findViewById(R.id.prod_price);
@@ -44,49 +43,38 @@ public class OrderActivity extends AppCompatActivity {
         btnPayment = findViewById(R.id.payment);
         btnOrder = findViewById(R.id.orderbtn);
 
-        //인텐트에서 값 가져와 적용
         ArrayList<String> imageUris = selectedProduct.getImageUris();
         if (imageUris != null && !imageUris.isEmpty()) {
             try {
-                // 첫 번째 이미지 URI를 파싱하여 설정
                 imgProduct.setImageURI(Uri.parse(imageUris.get(0)));
             } catch (Exception e) {
-                e.printStackTrace();
-                // 이미지 로드 실패 시 기본 이미지 설정 (필요 시)
                 imgProduct.setImageResource(R.drawable.ic_launcher_background);
             }
         } else {
-            // 이미지가 없을 경우 기본 이미지
             imgProduct.setImageResource(R.drawable.ic_launcher_background);
         }
 
         txtName.setText(selectedProduct.getName());
         txtPrice.setText("가격: "+selectedProduct.getPrice());
 
-        //결제수단 선택
         btnPayment.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this,v);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(
-                    new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            //결제수단 고르면 그 결제수단의 이름으로 버튼 텍스트 변경
-                            itemName = (String) item.getTitle();
-                            btnPayment.setText(itemName);
-                            return true;
-                        }
-                    }
-            );
+            popupMenu.setOnMenuItemClickListener(item -> {
+                itemName = (String) item.getTitle();
+                btnPayment.setText(itemName);
+                return true;
+            });
             popupMenu.show();
         });
 
-        //상품 주문, 주문결과 화면으로 넘어가기(OrderResultActivity)
         btnOrder.setOnClickListener(v -> {
-            //주소나 결제수단이 입력 안되었으면 Toast메세지 띄움
             if(etAddress.getText().toString().isEmpty() || btnPayment.getText().equals("선택")){
-                Toast.makeText(this, "올바른  주소나 결제수단을 입력해주세요!", Toast.LENGTH_SHORT).show();
-            }else {
+                Toast.makeText(this, "올바른 주소나 결제수단을 입력해주세요!", Toast.LENGTH_SHORT).show();
+            } else {
+                // DB 업데이트: 판매 완료 처리 및 구매자 등록
+                dbHelper.updateProductSold(selectedProduct.getId(), userId);
+
                 Intent intent = new Intent(OrderActivity.this, OrderResultActivity.class);
                 intent.putExtra(KEY_PRODUCT_DATA, selectedProduct);
                 intent.putExtra("U_ADDR", etAddress.getText().toString());
