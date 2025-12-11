@@ -27,7 +27,7 @@ public class ProductListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
 
         userId = getIntent().getStringExtra("USER_ID");
-        // 로그인 없이 들어온 경우 테스트용 ID 할당 (필요 시)
+        // 로그인 없이 들어온 경우 테스트용 ID 할당
         if (userId == null) userId = "testUser";
 
         dbHelper = new ProductDBHelper(this);
@@ -42,6 +42,10 @@ public class ProductListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadProductsFromDB();
+
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        }
     }
 
     private void initViews() {

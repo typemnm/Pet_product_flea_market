@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalesHistoryAdapter extends RecyclerView.Adapter<SalesHistoryAdapter.ViewHolder> {
+public class PurchaseHistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryAdapter.ViewHolder> {
 
     private List<Product> productList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onDeleteClick(Product product, int position);
         void onItemClick(Product product);
     }
 
-    public SalesHistoryAdapter(List<Product> productList, OnItemClickListener listener) {
+    public PurchaseHistoryAdapter(List<Product> productList, OnItemClickListener listener) {
         this.productList = productList;
         this.listener = listener;
     }
@@ -30,15 +28,16 @@ public class SalesHistoryAdapter extends RecyclerView.Adapter<SalesHistoryAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 새로 만든 item_purchase_history.xml 사용
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_sales_history, parent, false);
+                .inflate(R.layout.item_purchase_history, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
-        holder.bind(product, listener, position);
+        holder.bind(product, listener);
     }
 
     @Override
@@ -48,30 +47,28 @@ public class SalesHistoryAdapter extends RecyclerView.Adapter<SalesHistoryAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
-        TextView txtName, txtPrice, txtStatus;
-        Button btnDelete;
+        TextView txtName, txtPrice, txtAddress, txtPayment;
 
         ViewHolder(View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProduct);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
-            txtStatus = itemView.findViewById(R.id.txtStatus);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            txtAddress = itemView.findViewById(R.id.txtAddress);
+            txtPayment = itemView.findViewById(R.id.txtPayment);
         }
 
-        void bind(final Product product, final OnItemClickListener listener, int position) {
+        void bind(final Product product, final OnItemClickListener listener) {
             txtName.setText(product.getName());
             txtPrice.setText("가격: " + product.getPrice());
 
-            if(product.isSold()) {
-                txtStatus.setText("판매완료");
-                txtStatus.setTextColor(0xFF4CAF50); // Green
-            } else {
-                txtStatus.setText("판매중");
-                txtStatus.setTextColor(0xFFFF9800); // Orange
-            }
+            String addr = product.getTradingAddress() != null ? product.getTradingAddress() : "정보 없음";
+            String pay = product.getPaymentMethod() != null ? product.getPaymentMethod() : "정보 없음";
 
+            txtAddress.setText("주소: " + addr);
+            txtPayment.setText("결제수단: " + pay);
+
+            // 이미지 로드
             ArrayList<String> imageUris = product.getImageUris();
             if (imageUris != null && !imageUris.isEmpty()) {
                 try {
@@ -84,7 +81,6 @@ public class SalesHistoryAdapter extends RecyclerView.Adapter<SalesHistoryAdapte
             }
 
             itemView.setOnClickListener(v -> listener.onItemClick(product));
-            btnDelete.setOnClickListener(v -> listener.onDeleteClick(product, position));
         }
     }
 }

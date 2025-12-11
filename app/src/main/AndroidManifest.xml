@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.Pet_products_flea_market" tools:targetApi="31">
+    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.Pet_products_flea_market" android:usesCleartextTraffic="true" tools:targetApi="31">
         <activity android:name=".SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,5 +22,8 @@
         <activity android:name=".ProductAddActivity" android:exported="false" />
         <activity android:name=".SalesHistoryActivity" android:exported="false" />
         <activity android:name=".HistoryActivity" android:exported="false"/>
+        <activity android:name=".NoticeActivity" android:label="공지사항"/>
+        <activity android:name=".FeedbackActivity" android:label="의견 남기기"/>
+        <activity android:name=".FeedbackListActivity" android:label="의견 모아보기"/>
     </application>
 </manifest>
