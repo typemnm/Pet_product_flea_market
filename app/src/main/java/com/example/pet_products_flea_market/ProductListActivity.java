@@ -64,6 +64,7 @@ public class ProductListActivity extends AppCompatActivity {
         productAdapter = new ProductAdapter(productDataList, product ->{
             Intent intent = new Intent(ProductListActivity.this, ProductDetailActivity.class);
             intent.putExtra(ProductDetailActivity.KEY_PRODUCT_DATA, product);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
         rvProductList.setLayoutManager(new LinearLayoutManager(this));

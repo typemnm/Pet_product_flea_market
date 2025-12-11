@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 public class PurchaseListActivity extends AppCompatActivity {
-
+    private String userId;
     ListView listView;
     PurchaseListAdapter adapter;
     ArrayList<Purchase> purchaseList = new ArrayList<>();
@@ -24,6 +24,8 @@ public class PurchaseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_list);
+        //사용자 ID 받기
+        userId = getIntent().getStringExtra("USER_ID");
 
         listView = findViewById(R.id.purchaseListView);
 
@@ -42,7 +44,7 @@ public class PurchaseListActivity extends AppCompatActivity {
      */
     private void loadPurchaseHistory() {
 
-        SharedPreferences prefs = getSharedPreferences("PURCHASE_HISTORY", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("PURCHASE_HISTORY_" + userId, MODE_PRIVATE);
         // 저장된 구매 내역 개수
         int count = prefs.getInt("COUNT", 0);
 

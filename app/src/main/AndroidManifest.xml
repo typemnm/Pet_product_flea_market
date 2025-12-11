@@ -19,7 +19,7 @@
         <activity android:name=".NoticeActivity" android:exported="false" />
         <activity android:name=".FeedbackActivity" android:exported="false"/>
         <activity android:name=".FeedbackListActivity" android:exported="false"/>
-        <activity android:name=".PurchaseListActivity" />
+        <activity android:name=".PurchaseListActivity" android:exported="false"/>
 
     </application>
 </manifest>

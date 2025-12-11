@@ -63,6 +63,7 @@ public class MyPageActivity extends AppCompatActivity {
     private void setupListeners() {
         findViewById(R.id.btnPurchaseHistory).setOnClickListener(v -> {
             Intent intent = new Intent(MyPageActivity.this, PurchaseListActivity.class);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
 
@@ -107,7 +108,7 @@ public class MyPageActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_notice) {
                 // 공지사항으로 이동
-                Intent intent = new Intent(MyPageActivity.this, MainActivity.class);
+                Intent intent = new Intent(MyPageActivity.this, NoticeActivity.class);
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_mypage) {
