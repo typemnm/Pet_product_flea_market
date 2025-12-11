@@ -23,6 +23,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private Product currentProduct;
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void initData() {
         currentProduct = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
+        userId = getIntent().getStringExtra("USER_ID");   // ★ 한 번만 가져오기!
+
         if (currentProduct == null) {
             Toast.makeText(this, "상품 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
             finish();
@@ -88,14 +92,14 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void moveToPurchaseActivity() {
         Intent intent = new Intent(this, OrderActivity.class);
         intent.putExtra(KEY_PRODUCT_DATA, currentProduct);
+        intent.putExtra("USER_ID", userId);   //  저장된 userId 그대로 보내기
         startActivity(intent);
         finish();
     }
 
     private void loadOtherProduct(int newId) {
-        // 더미 데이터 생성 후 이동
         ArrayList<Integer> dummyImages = new ArrayList<>();
-        dummyImages.add(R.drawable.ic_doglogo); // 임시 이미지
+        dummyImages.add(R.drawable.ic_doglogo);
 
         Product nextProduct = new Product(
                 newId, "다른 상품 " + newId, "50,000원", "다른 상품 상세 설명입니다.", dummyImages
@@ -103,6 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ProductDetailActivity.class);
         intent.putExtra(KEY_PRODUCT_DATA, nextProduct);
+        intent.putExtra("USER_ID", userId);  // 저장된 userId 유지
         startActivity(intent);
     }
 }

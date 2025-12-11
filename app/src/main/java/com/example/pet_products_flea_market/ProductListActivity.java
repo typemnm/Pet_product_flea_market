@@ -64,6 +64,7 @@ public class ProductListActivity extends AppCompatActivity {
         productAdapter = new ProductAdapter(productDataList, product ->{
             Intent intent = new Intent(ProductListActivity.this, ProductDetailActivity.class);
             intent.putExtra(ProductDetailActivity.KEY_PRODUCT_DATA, product);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
         rvProductList.setLayoutManager(new LinearLayoutManager(this));
@@ -83,7 +84,7 @@ public class ProductListActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.nav_notice) {
                 // 공지사항(MainActivity)으로 이동
-                Intent intent = new Intent(ProductListActivity.this, MainActivity.class);
+                Intent intent = new Intent(ProductListActivity.this, NoticeActivity.class);
                 // 필요하다면 userId 정보도 같이 넘겨줄 수 있음
                 intent.putExtra("USER_ID", userId);
                 startActivity(intent);

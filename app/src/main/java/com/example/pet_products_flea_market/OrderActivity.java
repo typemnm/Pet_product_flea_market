@@ -28,12 +28,16 @@ public class OrderActivity extends AppCompatActivity {
     String itemName;
     int[] imgResource;
     Product selectedProduct;
+    String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+        //로그인한 사용자 ID 받기
+        userId = getIntent().getStringExtra("USER_ID");
 
         //ProductDetailActivity에서 인텐트 가져오기(id, 이름, 가격, 설명, 이미지src)
         selectedProduct  = (Product) getIntent().getSerializableExtra(KEY_PRODUCT_DATA);
@@ -82,6 +86,7 @@ public class OrderActivity extends AppCompatActivity {
                 intent.putExtra(KEY_PRODUCT_DATA, selectedProduct);
                 intent.putExtra("U_ADDR", etAddress.getText().toString());
                 intent.putExtra("P_PAY", itemName);
+                intent.putExtra("USER_ID", userId);
                 startActivity(intent);
                 finish();
             }
